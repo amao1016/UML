@@ -15,8 +15,8 @@ public class Button extends JButton{
     }
     public void Pressed(int x,int y){}
     public void Clicked(int x,int y){}
-    public void Dragged(int x, int y){}
-    public void Released(int x,int y){}
+    public void Dragged(int startx,int starty,int endx,int endy){}
+    public void Released(int startx,int starty,int endx,int endy){}
 
     public String getName()
     {

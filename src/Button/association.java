@@ -2,10 +2,11 @@ package Button;
 
 import java.awt.Point;
 
-import javax.sound.sampled.Line;
 import javax.swing.ImageIcon;
 
 import UI.canva;
+import Shape.Line;
+import Shape.Lassociation;
 
 public class association extends Button{
     private Line l;
@@ -16,16 +17,22 @@ public class association extends Button{
     @Override
     public void Pressed(int x,int y)
     {
-        l.setStart(new Point(x,y));
+        canva.currentLine = new Lassociation();
+        canva.currentLine.setStart(new Point(x,y));
+        System.out.println(canva.currentLine.getName());
+        canva.pressX=x;
+        canva.pressY=y;
     }
     @Override
-    public void Dragged(int x,int y)
+    public void Dragged(int startx,int starty,int endx,int endy)
     {
-
+        canva.releaseX=endx;
+        canva.releaseY=endy;
     }
     @Override
-    public void Released(int x,int y)
+    public void Released(int startx,int starty,int endx,int endy)
     {
-
+        Line line = new Lassociation(startx,starty,endx,endy);
+        canva.currentLine=line;
     }
 }

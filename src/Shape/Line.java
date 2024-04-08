@@ -1,21 +1,25 @@
 package Shape;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
-import javax.swing.JComponent;
+import javax.swing.JPanel;
 
-public class Line extends JComponent{
-    private Point start;
-    private Point end;
+public class Line extends JPanel{
+    public Point start;
+    public Point end;
+    private String typename;
+    public Line(String name)
+    {
+        this.typename=name;
+        setPreferredSize(new Dimension(5,5));
+        setOpaque(false);
+    }
+    public String getName()
+    {
+        return this.typename;
+    }
 
-    public Line()
-    {
-        
-    }
-    protected void paintComponent(Graphics g)//一樣是Jcomponent的不需要呼叫
-    {
-        g.drawLine(start.x,start.y,end.x,end.y);
-    }
     public void setStart(Point start)
     {
         this.start = start;

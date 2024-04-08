@@ -42,6 +42,8 @@ public class functionPanel extends JPanel{
         {
             public void actionPerformed(ActionEvent e)
             {
+                canva.ports.clear();
+                canva.repaint();
                 Button selectedButton = (Button) e.getSource();
                 if(lastSelectedButton != null) {
                     lastSelectedButton.setBackground(new Color(105, 105, 105));

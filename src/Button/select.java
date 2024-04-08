@@ -15,10 +15,11 @@ public class select extends Button{
     @Override
     public void Pressed(int x,int y)//for group
     {
-
+        canva.pressX=x;
+        canva.pressY=y;
     }
     @Override
-    public void Released(int x,int y)//for group
+    public void Released(int startx,int starty,int endx,int endy)//for group
     {
 
     }

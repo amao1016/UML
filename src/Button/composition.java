@@ -6,7 +6,6 @@ import UI.canva;
 import Shape.Lcomposition;
 import Shape.Line;
 public class composition extends Button{
-    private Line l;
     public composition(ImageIcon icon,canva canva)
     {
         super("composition",icon,canva);
@@ -14,16 +13,22 @@ public class composition extends Button{
     @Override
     public void Pressed(int x,int y)
     {
-        l.setStart(new Point(x,y));
+        canva.currentLine = new Lcomposition();
+        canva.currentLine.setStart(new Point(x,y));
+        System.out.println(canva.currentLine.getName());
+        canva.pressX=x;
+        canva.pressY=y;
     }
     @Override
-    public void Dragged(int x,int y)
+    public void Dragged(int startx,int starty,int endx,int endy)
     {
-
+        canva.releaseX=endx;
+        canva.releaseY=endy;
     }
     @Override
-    public void Released(int x,int y)
+    public void Released(int startx,int starty,int endx,int endy)
     {
-
+        Line line = new Lcomposition(startx,starty,endx,endy);
+        canva.currentLine=line;
     }
 }

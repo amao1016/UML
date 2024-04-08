@@ -42,7 +42,7 @@ public class Obj extends JPanel{
         }
         return false;
     }
-    public void drawports(Graphics g)
+    public void drawports(Graphics g)//not used now 
     {
         g.setColor(Color.BLACK);
         for(int i=0; i<4; i++)

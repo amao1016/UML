@@ -1,13 +1,12 @@
 package Button;
 import java.awt.Point;
 
-import javax.sound.sampled.Line;
 import javax.swing.ImageIcon;
 import UI.canva;
 import Shape.Line;
+import Shape.Lgeneration;
 
 public class generation extends Button{
-    public Line l;
     public generation(ImageIcon icon,canva canva)
     {
         super("generation",icon,canva);
@@ -15,16 +14,23 @@ public class generation extends Button{
     @Override
     public void Pressed(int x,int y)
     {
-        l.setStart(new Point(x,y));
+        canva.currentLine = new Lgeneration();
+        canva.currentLine.setStart(new Point(x,y));
+        System.out.println(canva.currentLine.getName());
+        canva.pressX=x;
+        canva.pressY=y;
+        
     }
     @Override
-    public void Dragged(int x,int y)
+    public void Dragged(int startx,int starty,int endx,int endy)
     {
-
+        canva.releaseX=endx;
+        canva.releaseY=endy;
     }
     @Override
-    public void Released(int x,int y)
+    public void Released(int startx,int starty,int endx,int endy)
     {
-
+        Line line = new Lgeneration(startx,starty,endx,endy);
+        canva.currentLine=line;
     }
 }

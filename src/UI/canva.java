@@ -1,19 +1,26 @@
 package UI;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import Button.Button;
 import Shape.Obj;
+import Shape.Line;
 public class canva extends JPanel{
+    public int pressX,pressY;
+    public int releaseX,releaseY;
+    public Line currentLine;
     private UI ui;
     public ArrayList<Point> ports=new ArrayList<>();
+    private ArrayList<Line> Lines = new ArrayList<>();
     Button selectedButton;
     public ArrayList<Obj> objs = new ArrayList<>();
     boolean mouseE=false;
@@ -21,7 +28,9 @@ public class canva extends JPanel{
     {
         setLayout(null);
         this.ui=ui;
-        addMouseListener(new canvaListener());
+        canvaListener listener=new canvaListener();
+        addMouseListener(listener);
+        addMouseMotionListener(listener);
 
     }
     class canvaListener extends MouseAdapter
@@ -45,14 +54,21 @@ public class canva extends JPanel{
         public void mouseDragged(MouseEvent e)
         {
             System.out.println("Dragged");
-            selectedButton.Dragged(e.getX(),e.getY());
+            selectedButton.Dragged(pressX,pressY,e.getX(),e.getY());
+            if(currentLine!=null) repaint();
 
         }
         @Override
         public void mouseReleased(MouseEvent e)
         {
             System.out.println("Released");
-            selectedButton.Released(e.getX(),e.getY());
+            selectedButton.Released(pressX,pressY,e.getX(),e.getY());
+            if(currentLine!=null)
+            {
+                Lines.add(currentLine);
+                repaint();
+                currentLine=null;
+            }
 
         }
 
@@ -62,7 +78,8 @@ public class canva extends JPanel{
     {
         super.paintComponent(g);
         drawports(g);
-
+        drawLine(g);
+        //drawarrow(g);
     }
     public void addport(int x,int y)
     {
@@ -74,6 +91,31 @@ public class canva extends JPanel{
                 for(Point connect:obj.connectports)
                 ports.add(connect);
             }
+        }
+    }
+    public void drawarrow(Graphics g)
+    {
+        for(Line line:Lines)
+        {
+            int m = (line.end.y-line.start.y)/(line.end.x-line.start.x);
+            double angle = Math.atan(m);
+            g.setColor(Color.BLACK);
+            Graphics2D g2d = (Graphics2D) g;
+            AffineTransform rotation = AffineTransform.getRotateInstance(angle, line.start.x, line.start.x);
+            g2d.setTransform(rotation);
+    
+            g2d.setColor(Color.BLACK);
+            g2d.drawRect(line.end.x,line.end.y,5,5);
+        }    
+    
+    }
+    public void drawLine(Graphics g)
+    {
+        g.setColor(Color.BLACK);
+        if(currentLine!=null)g.drawLine(pressX, pressY, releaseX, releaseY);
+        for(Line line:Lines)
+        {
+            g.drawLine(line.start.x, line.start.y,line.end.x, line.end.y);
         }
     }
     public void drawports(Graphics g)
