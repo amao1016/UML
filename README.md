@@ -23,7 +23,9 @@ select時的depth(反著遍歷)
 移動物件(用lastObj)
 
 ## Problem now
-draw arrow箭頭尾巴還沒畫(現在畫的位置不對)
-line連到port
-Obj移動時已連的線跟著移動(目前想法：加入一個lineport紀錄已連線的port，或加入一個lineObj紀錄已被連線的obj) 紀錄線的應該要自己寫一個class，紀錄原obj
-group(可以group到有連線的物體ㄇ 阿好像應該要可以)
+- draw arrow箭頭尾巴還沒畫(現在畫的位置不對)
+- line連到port
+- Obj移動時已連的線跟著移動(目前想法：加入一個lineport紀錄已連線的port，或加入一個lineObj紀錄已被連線的obj) 紀錄線的應該要自己寫一個class，紀錄原obj
+- group(可以group到有連線的物體ㄇ 阿好像應該要可以)
+## murmur
+為了解決select的選取還是拖曳，code變超醜= =
