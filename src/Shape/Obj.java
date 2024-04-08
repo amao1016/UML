@@ -5,17 +5,28 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 
-import javax.swing.JButton;
+import javax.swing.JPanel;
 
-public class Obj extends JButton{
+public class Obj extends JPanel{
     Point clickPoint;
     Point[] pos = new Point[4]; //順序：象限2143
-    Point[] connectports = new Point[4];//上右下左
+    public Point[] connectports = new Point[4];//上右下左
     boolean selected;
+    private int x,y;
+
     public Obj(int x,int y, int w, int h)
     {
-        super.setPreferredSize(new Dimension(w,h));
+        super();
+        this.x = x;
+        this.y = y;
+
         setPreferredSize(new Dimension(w,h));
+        setOpaque(false);
+        setBounds(x,y,w,h);
+    }
+    Point midPoint(Point a,Point b)
+    {
+        return new Point((a.x+b.x)/2,(a.y+b.y)/2);
     }
     //到時候的判斷式：if(ifselected() or inside) showports;
     public boolean insideObj(int x,int y)
@@ -31,14 +42,12 @@ public class Obj extends JButton{
         }
         return false;
     }
-    @Override
-    protected void paintComponent(Graphics g)
+    public void drawports(Graphics g)
     {
-        super.paintComponent(g);
         g.setColor(Color.BLACK);
-        //draw(g);
+        for(int i=0; i<4; i++)
+            g.fillRect((int)connectports[i].getX(), (int)connectports[i].getY(), 3, 3);
     }
-    
     public Point findport(int x,int y)//選上下左右
     {
         boolean firstDiagonal = (x - pos[0].x) * (pos[2].y - pos[0].y) - (y - pos[0].y) * (pos[2].x - pos[0].x) > 0;//左到右的對角線，>0 在右側

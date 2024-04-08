@@ -2,21 +2,21 @@ package Button;
 
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import UI.canva;
 public class Button extends JButton{
     private String name;
-    public Button(String name, ImageIcon icon)
+    protected canva canva;
+    public Button(String name, ImageIcon icon,canva canva)
     {
         super(icon);
         this.name = name;
+        this.canva=canva;
     }
-    public void mouseClicked(int x,int y){}
-    public void mousePressed(int x,int y){}
-    public void mousedReleased(int x,int y){}
+    public void Pressed(int x,int y){}
+    public void Clicked(int x,int y){}
+    public void Dragged(int x, int y){}
+    public void Released(int x,int y){}
 
     public String getName()
     {

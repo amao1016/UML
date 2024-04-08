@@ -1,5 +1,10 @@
 package Shape;
 
-public class Lcomposition {
-    
+import java.awt.Point;
+
+public class Lcomposition extends Line{
+    public Lcomposition()
+    {
+        super();
+    }
 }

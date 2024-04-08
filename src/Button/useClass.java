@@ -1,25 +1,20 @@
 package Button;
-import java.awt.Color;
-import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
 import Shape.ObjuseClass;
 import UI.canva;
 import Shape.Obj;
 public class useClass extends Button{
-    private canva canva;
 
     public useClass(ImageIcon icon,canva canva)
     {
-        super("useClass",icon);
-        this.canva=canva;
+        super("useClass",icon,canva);
     }
-    @Override
-    public void mouseClicked(int x,int y)
+    public void Clicked(int x,int y)
     {
-        Obj useclass = new ObjuseClass(x, y);
+        Obj useclass = new ObjuseClass(canva,x, y);
         canva.add(useclass);
-        System.out.println("Hi");
-        repaint();
+        canva.objs.add(useclass);
+        //canva.repaint();
     }
 }

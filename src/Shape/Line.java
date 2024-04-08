@@ -8,10 +8,9 @@ public class Line extends JComponent{
     private Point start;
     private Point end;
 
-    public Line(Point start, Point end)
+    public Line()
     {
-        this.start = start;
-        this.end =end;
+        
     }
     protected void paintComponent(Graphics g)//一樣是Jcomponent的不需要呼叫
     {

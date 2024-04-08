@@ -1,28 +1,30 @@
 package Button;
 
+import java.awt.Point;
+
+import javax.sound.sampled.Line;
 import javax.swing.ImageIcon;
 
 import UI.canva;
 
 public class association extends Button{
-    private canva canva;
+    private Line l;
     public association(ImageIcon icon,canva canva)
     {
-        super("association",icon);
-        this.canva=canva;
+        super("association",icon,canva);
     }
     @Override
-    public void mouseClicked(int x,int y)
+    public void Pressed(int x,int y)
+    {
+        l.setStart(new Point(x,y));
+    }
+    @Override
+    public void Dragged(int x,int y)
     {
 
     }
     @Override
-    public void mousePressed(int x,int y)
-    {
-
-    }
-    @Override
-    public void mousedReleased(int x,int y)
+    public void Released(int x,int y)
     {
 
     }

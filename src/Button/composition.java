@@ -1,26 +1,29 @@
 package Button;
+import java.awt.Point;
+
 import javax.swing.ImageIcon;
 import UI.canva;
+import Shape.Lcomposition;
+import Shape.Line;
 public class composition extends Button{
-    private canva canva;
+    private Line l;
     public composition(ImageIcon icon,canva canva)
     {
-        super("composition",icon);
-        this.canva = canva;
+        super("composition",icon,canva);
     }
     @Override
-    public void mouseClicked(int x,int y)
+    public void Pressed(int x,int y)
+    {
+        l.setStart(new Point(x,y));
+    }
+    @Override
+    public void Dragged(int x,int y)
     {
 
     }
     @Override
-    public void mousePressed(int x,int y)
+    public void Released(int x,int y)
     {
 
-    }
-    @Override
-    public void mousedReleased(int x,int y)
-    {
-        
     }
 }

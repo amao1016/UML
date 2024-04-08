@@ -49,6 +49,7 @@ public class functionPanel extends JPanel{
                 selectedButton.setBackground(Color.BLACK);
                 lastSelectedButton = selectedButton;
                 canva.setSelectedbtn(selectedButton);
+                //System.out.println(selectedButton.getName());
             }
         }
 

@@ -4,13 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import UI.canva;
+
 public class ObjuseClass extends Obj{
     private int x,y;
-    public ObjuseClass(int x, int y)
+    public ObjuseClass(canva canva,int x, int y)
     {
         super(x,y,120,90);
-        this.x = x;
-        this.y = y;
         super.pos[0]= new Point(x,y);
         super.pos[1] = new Point(x+120,y);
         super.pos[2] = new Point(x+120,y+90);
@@ -19,21 +19,14 @@ public class ObjuseClass extends Obj{
         super.connectports[1]=midPoint(pos[1], pos[2]);
         super.connectports[2]=midPoint(pos[2], pos[3]);
         super.connectports[3]=midPoint(pos[3], pos[0]);
-        setOpaque(false);
-
     }
     @Override
-    public void paintComponent(Graphics g)
+    protected void paintComponent(Graphics g)
     {
-        super.paintComponent(g);
+        //super.paintComponent(g);
         g.setColor(Color.BLACK);
-        g.fillOval(x, y, getWidth(), getHeight()); // 绘制圆形按钮
-        System.out.println("width:"+getWidth());
+        g.drawOval(x, y, getWidth(), getHeight());
+    }
 
-    }
-    Point midPoint(Point a,Point b)
-    {
-        return new Point((a.x+b.x)/2,(a.y+b.y)/2);
-    }
     
 }

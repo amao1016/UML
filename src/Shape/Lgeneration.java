@@ -3,8 +3,8 @@ package Shape;
 import java.awt.Point;
 
 public class Lgeneration extends Line{
-    public Lgeneration(Point start,Point end)
+    public Lgeneration()
     {
-        super(start,end);
+        super();
     }
 }
