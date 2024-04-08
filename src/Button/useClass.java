@@ -15,6 +15,5 @@ public class useClass extends Button{
         Obj useclass = new ObjuseClass(canva,x, y);
         canva.add(useclass);
         canva.objs.add(useclass);
-        //canva.repaint();
     }
 }

@@ -15,12 +15,36 @@ public class select extends Button{
     @Override
     public void Pressed(int x,int y)//for group
     {
+        canva.selectAreaStartX=x;
+        canva.selectAreaStartY=y;
         canva.pressX=x;
         canva.pressY=y;
     }
     @Override
+    public void Dragged(int startx,int starty,int endx,int endy)//for group
+    {
+        if(startx >= endx) startx = swap(endx,endx=startx);
+        if(starty >= endy) starty = swap(endy,endy=starty);
+        canva.selectAreaStartX=startx;
+        canva.selectAreaStartY=starty;
+        canva.selectAreaEndX=endx;
+        canva.selectAreaEndY=endy;
+        canva.addport();
+    }
+    @Override
     public void Released(int startx,int starty,int endx,int endy)//for group
     {
+        if(startx >= endx) startx = swap(endx,endx=startx);
+        if(starty >= endy) starty = swap(endy,endy=starty);
+        canva.selectAreaStartX=startx;
+        canva.selectAreaStartY=starty;
+        canva.selectAreaEndX=endx;
+        canva.selectAreaEndY=endy;
+        canva.addport();
 
+    }
+    int swap(int a,int b)
+    {
+        return a;
     }
 }

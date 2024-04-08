@@ -1,6 +1,7 @@
 package Shape;
 
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -10,7 +11,7 @@ public class ObjClass extends Obj{
     private int x,y;
     public ObjClass(canva canva,int x, int y)
     {
-        super(x,y,120,180);
+        super("class",x,y,120,180);
         super.pos[0]= new Point(x,y);
         super.pos[1] = new Point(x+120,y);
         super.pos[2] = new Point(x+120,y+180);
@@ -28,7 +29,10 @@ public class ObjClass extends Obj{
         g.drawRect(x, y, getWidth()-1, getHeight()/3);
         g.drawRect(x, y+getHeight()/3, getWidth()-1, getHeight()/3);
         g.drawRect(x, y+getHeight()/3*2, getWidth()-1, getHeight()/3-1);
-
+        //g.drawString(super.name, x+45, y+35);
+        FontMetrics metrics = g.getFontMetrics();
+        int posx = x + (getWidth() - metrics.stringWidth(super.name)) / 2;
+        g.drawString(super.name, posx, y+35);
     }
 
     

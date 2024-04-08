@@ -1,6 +1,7 @@
 package Shape;
 
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -10,7 +11,7 @@ public class ObjuseClass extends Obj{
     private int x,y;
     public ObjuseClass(canva canva,int x, int y)
     {
-        super(x,y,120,90);
+        super("useClass",x,y,120,90);
         super.pos[0]= new Point(x,y);
         super.pos[1] = new Point(x+120,y);
         super.pos[2] = new Point(x+120,y+90);
@@ -26,6 +27,12 @@ public class ObjuseClass extends Obj{
         //super.paintComponent(g);
         g.setColor(Color.BLACK);
         g.drawOval(x, y, getWidth(), getHeight());
+        //g.drawString(super.name, x+37, y+50);
+
+        FontMetrics metrics = g.getFontMetrics();
+        int posx = x + (getWidth() - metrics.stringWidth(super.name)) / 2;
+        int posy = y + ((getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();
+        g.drawString(super.name, posx, posy);
     }
 
     

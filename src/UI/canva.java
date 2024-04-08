@@ -15,9 +15,13 @@ import Button.Button;
 import Shape.Obj;
 import Shape.Line;
 public class canva extends JPanel{
+    public int selectAreaStartX=-1,selectAreaStartY=-1,selectAreaEndX=-1,selectAreaEndY=-1;
     public int pressX,pressY;
     public int releaseX,releaseY;
     public Line currentLine;
+    public ArrayList<Obj> selectedObjs = new ArrayList<>();
+    public static int selectedObjsNum;
+    public static Obj lastObj;
     private UI ui;
     public ArrayList<Point> ports=new ArrayList<>();
     private ArrayList<Line> Lines = new ArrayList<>();
@@ -39,6 +43,7 @@ public class canva extends JPanel{
         public void mouseClicked(MouseEvent e)
         {
             ports.clear();
+            selectedObjs.clear();
             System.out.println("Clicked");
             selectedButton.Clicked(e.getX(),e.getY());
             repaint();
@@ -47,6 +52,8 @@ public class canva extends JPanel{
         @Override
         public void mousePressed(MouseEvent e)
         {
+            ports.clear();
+            selectedObjs.clear();
             System.out.println("Pressed");
             selectedButton.Pressed(e.getX(),e.getY());
         }
@@ -55,8 +62,8 @@ public class canva extends JPanel{
         {
             System.out.println("Dragged");
             selectedButton.Dragged(pressX,pressY,e.getX(),e.getY());
-            if(currentLine!=null) repaint();
-
+            //if(currentLine!=null) repaint();
+            repaint();
         }
         @Override
         public void mouseReleased(MouseEvent e)
@@ -66,23 +73,17 @@ public class canva extends JPanel{
             if(currentLine!=null)
             {
                 Lines.add(currentLine);
-                repaint();
                 currentLine=null;
             }
+            repaint();
+            
 
         }
 
     }
-    
-    protected void paintComponent(Graphics g)//Jcomponents的mothod, JPanel屬Jcomponents
-    {
-        super.paintComponent(g);
-        drawports(g);
-        drawLine(g);
-        //drawarrow(g);
-    }
     public void addport(int x,int y)
     {
+        selectedObjsNum=0;
         for(Obj obj:objs)
         {
             if(obj.insideObj(x,y))
@@ -90,8 +91,37 @@ public class canva extends JPanel{
                 System.out.println("yes");
                 for(Point connect:obj.connectports)
                 ports.add(connect);
+                selectedObjs.add(obj);
+                selectedObjsNum++;
             }
         }
+        if(selectedObjsNum>=1)lastObj = selectedObjs.getLast();
+    }
+    public void addport()
+    {
+        selectedObjsNum=0;
+
+        for(Obj obj:objs)
+        {
+            if(obj.ifselected(selectAreaStartX,selectAreaStartY,selectAreaEndX,selectAreaEndY))
+            {
+                System.out.println("yes");
+                for(Point connect:obj.connectports)
+                ports.add(connect);
+                selectedObjs.add(obj);
+                selectedObjsNum++;
+            }
+        }
+        if(selectedObjsNum>=1)lastObj = selectedObjs.getLast();
+
+    }
+    protected void paintComponent(Graphics g)//Jcomponents的mothod, JPanel屬Jcomponents
+    {
+        super.paintComponent(g);
+        drawports(g);
+        drawLine(g);
+        //drawarrow(g);
+
     }
     public void drawarrow(Graphics g)
     {

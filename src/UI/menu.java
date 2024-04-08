@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import UI.canva;
 
 public class menu extends JMenuBar {
     private UI ui;
@@ -41,12 +42,15 @@ public class menu extends JMenuBar {
     {
         public void actionPerformed(ActionEvent e)
         {
-            String newName = JOptionPane.showInputDialog("Enter new name:");
-            if (newName != null && !newName.isEmpty()) {
-
-                System.out.println("New Name: " + newName);
+            if(canva.selectedObjsNum==1)
+            {
+                String newName = JOptionPane.showInputDialog("Enter new name:");
+                if (newName != null && !newName.isEmpty()) 
+                {
+                    canva.lastObj.setName(newName);
+                    canva.lastObj.repaint();
+                }                
             }
-            System.out.println("New Name: " + newName);
         }
     }
 }

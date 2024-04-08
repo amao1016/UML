@@ -12,11 +12,13 @@ public class Obj extends JPanel{
     Point[] pos = new Point[4]; //順序：象限2143
     public Point[] connectports = new Point[4];//上右下左
     boolean selected;
+    String name;
     private int x,y;
 
-    public Obj(int x,int y, int w, int h)
+    public Obj(String name,int x,int y, int w, int h)
     {
         super();
+        this.name = name;
         this.x = x;
         this.y = y;
 
@@ -75,6 +77,10 @@ public class Obj extends JPanel{
         }
         return false;
 
+    }
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
 }
