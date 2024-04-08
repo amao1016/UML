@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 public class Obj extends JPanel{
     Point clickPoint;
-    Point[] pos = new Point[4]; //順序：象限2143
+    public Point[] pos = new Point[4]; //順序：象限2143
     public Point[] connectports = new Point[4];//上右下左
     boolean selected;
     String name;

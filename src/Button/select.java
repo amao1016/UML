@@ -11,11 +11,13 @@ public class select extends Button{
     public void Clicked(int x,int y)
     {
         canva.addport(x,y,true);
+        if(UI.canva.selectedObjsNum==0)UI.canva.notmove=true;
     }
     @Override
     public void Pressed(int x,int y)//for group or move
     {
-        canva.addport(x,y,false);
+        if(!UI.canva.notmove)canva.addport(x,y,false);//move
+        else canva.addport(x,y,true);//group
         canva.selectAreaStartX=x;
         canva.selectAreaStartY=y;
         canva.pressX=x;

@@ -29,6 +29,7 @@ public class menu extends JMenuBar {
         public void actionPerformed(ActionEvent e)
         {
             //group();
+            if(canva.selectedObjsNum>1)canva.group();
         }
     }
     class ungroupListener implements ActionListener

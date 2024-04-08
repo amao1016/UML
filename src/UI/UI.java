@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UI extends JFrame {
+    public static final String canva = null;
+
     public UI() {
         setTitle("Swing Example");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

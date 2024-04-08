@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import Button.Button;
 import Button.ButtonFactory;
+import UI.canva;
 public class functionPanel extends JPanel{
         private UI ui;
         private Button[] buttons = new Button[6];
