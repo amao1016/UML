@@ -5,7 +5,6 @@ import javax.swing.ImageIcon;
 import UI.canva;
 import Shape.Line;
 import Shape.Lgeneration;
-
 public class generation extends Button{
     public generation(ImageIcon icon,canva canva)
     {
@@ -14,12 +13,13 @@ public class generation extends Button{
     @Override
     public void Pressed(int x,int y)
     {
+        canva.addport(x,y,true);
         canva.currentLine = new Lgeneration();
         canva.currentLine.setStart(new Point(x,y));
         System.out.println(canva.currentLine.getName());
         canva.pressX=x;
         canva.pressY=y;
-        
+                
     }
     @Override
     public void Dragged(int startx,int starty,int endx,int endy)

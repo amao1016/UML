@@ -82,5 +82,19 @@ public class Obj extends JPanel{
     {
         this.name = name;
     }
+    public void move(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+        setBounds(x,y,getWidth(),getHeight());
+        pos[0]= new Point(x,y);
+        pos[1] = new Point(x+120,y);
+        pos[2] = new Point(x+120,y+180);
+        pos[3]= new Point(x,y+180);
+        connectports[0]=midPoint(pos[0], pos[1]);
+        connectports[1]=midPoint(pos[1], pos[2]);
+        connectports[2]=midPoint(pos[2], pos[3]);
+        connectports[3]=midPoint(pos[3], pos[0]);
+    }
 
 }

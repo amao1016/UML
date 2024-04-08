@@ -17,5 +17,4 @@ public class Class extends Button{
         canva.objs.add(useclass);
         canva.repaint();
     }
-
 }

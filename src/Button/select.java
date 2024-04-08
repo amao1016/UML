@@ -10,11 +10,12 @@ public class select extends Button{
     @Override
     public void Clicked(int x,int y)
     {
-        canva.addport(x,y);
+        canva.addport(x,y,true);
     }
     @Override
-    public void Pressed(int x,int y)//for group
+    public void Pressed(int x,int y)//for group or move
     {
+        canva.addport(x,y,false);
         canva.selectAreaStartX=x;
         canva.selectAreaStartY=y;
         canva.pressX=x;

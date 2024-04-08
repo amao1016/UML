@@ -16,5 +16,4 @@ public class Lassociation extends Line{
     {
         super("Lassociation");
     }
-    
 }

@@ -17,6 +17,7 @@ public class association extends Button{
     @Override
     public void Pressed(int x,int y)
     {
+        canva.addport(x,y,true);
         canva.currentLine = new Lassociation();
         canva.currentLine.setStart(new Point(x,y));
         System.out.println(canva.currentLine.getName());

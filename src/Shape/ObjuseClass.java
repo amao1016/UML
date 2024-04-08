@@ -29,6 +29,7 @@ public class ObjuseClass extends Obj{
         g.drawOval(x, y, getWidth(), getHeight());
         //g.drawString(super.name, x+37, y+50);
 
+        //string centered
         FontMetrics metrics = g.getFontMetrics();
         int posx = x + (getWidth() - metrics.stringWidth(super.name)) / 2;
         int posy = y + ((getHeight() - metrics.getHeight()) / 2) + metrics.getAscent();

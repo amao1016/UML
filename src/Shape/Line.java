@@ -27,5 +27,4 @@ public class Line extends JPanel{
     {
         this.end = end;
     }
-
 }

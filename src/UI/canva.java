@@ -22,6 +22,7 @@ public class canva extends JPanel{
     public ArrayList<Obj> selectedObjs = new ArrayList<>();
     public static int selectedObjsNum;
     public static Obj lastObj;
+    private Obj connectObj;
     private UI ui;
     public ArrayList<Point> ports=new ArrayList<>();
     private ArrayList<Line> Lines = new ArrayList<>();
@@ -45,7 +46,7 @@ public class canva extends JPanel{
             ports.clear();
             selectedObjs.clear();
             System.out.println("Clicked");
-            selectedButton.Clicked(e.getX(),e.getY());
+            if(selectedButton!=null)selectedButton.Clicked(e.getX(),e.getY());
             repaint();
 
         }
@@ -55,47 +56,97 @@ public class canva extends JPanel{
             ports.clear();
             selectedObjs.clear();
             System.out.println("Pressed");
-            selectedButton.Pressed(e.getX(),e.getY());
+            if(selectedButton!=null)selectedButton.Pressed(e.getX(),e.getY());
         }
         @Override
         public void mouseDragged(MouseEvent e)
         {
+            //ports.clear();
             System.out.println("Dragged");
-            selectedButton.Dragged(pressX,pressY,e.getX(),e.getY());
-            //if(currentLine!=null) repaint();
-            repaint();
+            if(lastObj!=null&&selectedButton!=null)
+            {
+                if(selectedButton.getName().equals("select"))
+                {
+                    //System.out.print("hi");
+                    lastObj.move(e.getX(), e.getY());
+                    lastObj.repaint();
+                }
+                else{
+                    Point p = lastObj.findport(pressX,pressY);
+                    pressX = (int)p.getX();
+                    pressY = (int)p.getY();
+                    selectedButton.Dragged(pressX,pressY,e.getX(),e.getY());
+                    repaint();
+                }
+            }
+                //if(currentLine!=null) repaint();
+            //repaint();
         }
         @Override
         public void mouseReleased(MouseEvent e)
         {
             System.out.println("Released");
-            selectedButton.Released(pressX,pressY,e.getX(),e.getY());
-            if(currentLine!=null)
+            if(selectedButton!=null)
             {
-                Lines.add(currentLine);
-                currentLine=null;
+                if(lastObj!=null) 
+                {
+                    if(selectedButton.getName().equals("select"))//Obj move
+                    {
+                        lastObj.move(e.getX(), e.getY());
+                        lastObj.repaint();
+                        lastObj=null;
+                    }
+                    else
+                    {
+                        //ports.clear();
+                        addport(e.getX(),e.getY(),true);
+                        if(connectObj!=null)
+                        {
+                            Point p = lastObj.findport(e.getX(),e.getY());
+                            releaseX = (int)p.getX();
+                            releaseY = (int)p.getY();
+                            selectedButton.Released(pressX,pressY,releaseX,releaseY);
+                            if(currentLine!=null)
+                            {
+                                Lines.add(currentLine);
+                                currentLine=null;
+                            }
+                        }
+                    }
+                }
+                repaint();
             }
-            repaint();
-            
+            reset();
 
         }
-
     }
-    public void addport(int x,int y)
+    public void reset()
+    {
+        pressX=-1;
+        pressY=-1;
+        releaseX=-1;
+        releaseY=-1;
+    }
+    public void addport(int x,int y,boolean drawport)
     {
         selectedObjsNum=0;
-        for(Obj obj:objs)
+        connectObj = lastObj;
+        for(int i=objs.size()-1;i>=0;i--)
         {
-            if(obj.insideObj(x,y))
+            if(objs.get(i).insideObj(x,y))
             {
-                System.out.println("yes");
-                for(Point connect:obj.connectports)
-                ports.add(connect);
-                selectedObjs.add(obj);
+                if(drawport)
+                {
+                    for(Point connect:objs.get(i).connectports)
+                        ports.add(connect);
+                }
+                //selectedObjs.add(obj);
                 selectedObjsNum++;
+                lastObj = objs.get(i);
+                break;
             }
         }
-        if(selectedObjsNum>=1)lastObj = selectedObjs.getLast();
+        if(connectObj.equals(lastObj)&&!selectedButton.getName().equals("select"))connectObj=null;
     }
     public void addport()
     {
