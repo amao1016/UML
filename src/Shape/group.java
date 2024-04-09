@@ -28,7 +28,6 @@ public class group extends Obj{
 
         for(Obj mem:member)
         {
-            mem.reset(getX(),getY());
             super.member.add(mem);
             this.member.add(mem);
         }
@@ -39,10 +38,6 @@ public class group extends Obj{
         super.paintComponent(g);
         g.setColor(Color.BLACK);
         g.drawRect(0, 0, getWidth()-1, getHeight()-1);
-        for(Obj obj:member)
-        {
-            add(obj);
-        }
     }
     
 }

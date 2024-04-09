@@ -24,7 +24,7 @@ public class Obj extends JPanel{
         this.name = name;
         this.x = x;
         this.y = y;
-
+        setLayout(null);
         setPreferredSize(new Dimension(w,h));
         setOpaque(false);
         setBounds(x,y,w,h);
@@ -89,13 +89,13 @@ public class Obj extends JPanel{
     }
     public void move(int x, int y)
     {
-        this.x = x;
-        this.y = y;
-        setBounds(x,y,getWidth(),getHeight());
-        pos[0]= new Point(x,y);
-        pos[1] = new Point(x+getWidth(),y);
-        pos[2] = new Point(x+getWidth(),y+getHeight());
-        pos[3]= new Point(x,y+getHeight());
+        this.x += x;
+        this.y += y;
+        setBounds(this.x,this.y,getWidth(),getHeight());
+        pos[0]= new Point(this.x,this.y);
+        pos[1] = new Point(this.x+getWidth(),this.y);
+        pos[2] = new Point(this.x+getWidth(),this.y+getHeight());
+        pos[3]= new Point(this.x,this.y+getHeight());
         connectports[0]=midPoint(pos[0], pos[1]);
         connectports[1]=midPoint(pos[1], pos[2]);
         connectports[2]=midPoint(pos[2], pos[3]);
@@ -110,6 +110,10 @@ public class Obj extends JPanel{
         pos[1] = new Point(this.x+getWidth(),this.y);
         pos[2] = new Point(this.x+getWidth(),this.y+getHeight());
         pos[3]= new Point(this.x,this.y+getHeight());
+    }
+    public String getName()
+    {
+        return this.name;
     }
 
 }

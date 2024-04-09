@@ -86,7 +86,17 @@ public class canva extends JPanel{
                     }
                     else //move
                     {
-                        lastObj.move(e.getX(), e.getY());
+                        if(lastObj.getName().equals("Group"))
+                        {
+                            System.out.println(lastObj.componentNum);
+                           for(Obj obj:lastObj.member)
+                            {
+                                obj.move(e.getX()-pressX, e.getY()-pressY);
+                            }
+                        }
+                        lastObj.move(e.getX()-pressX, e.getY()-pressY);
+                        pressX=e.getX();
+                        pressY=e.getY();
                         repaint();
                     }
                 }
@@ -116,7 +126,7 @@ public class canva extends JPanel{
                 {
                     if(selectedButton.getName().equals("select")&&selectedObjsNum==1)//Obj move
                     {
-                        lastObj.move(e.getX(), e.getY());
+                        lastObj.move(e.getX()-pressX, e.getY()-pressY);
                         lastObj=null;                     
                     }
                     else//draw line
@@ -206,9 +216,8 @@ public class canva extends JPanel{
         super.paintComponent(g);
         //for(Obj obj:objs)obj.repaint();
         drawports(g);
-        drawLine(g);
         drawarrow(g);
-
+        drawLine(g);
     }
     public void drawarrow(Graphics g)
     {
@@ -221,15 +230,7 @@ public class canva extends JPanel{
             //int m = (endy-starty)/(endx-startx);
             double angle = Math.atan2(endy-starty,endx-startx);
             Polygon arrow;
-            if(line.getName().equals("Lgeneration"))
-            {
-                angle-=Math.toRadians(20);
-                arrow = new Polygon();
-                arrow.addPoint(0, 5);
-                arrow.addPoint(10, 0);
-                arrow.addPoint(0, -5);
-            }
-            else if(line.getName().equals("Lcomposition"))
+            if(line.getName().equals("Lcomposition"))
             {
                 angle-=Math.toRadians(45);
                 arrow = new Polygon();
@@ -237,6 +238,14 @@ public class canva extends JPanel{
                 arrow.addPoint(10, 0);
                 arrow.addPoint(10, 10);
                 arrow.addPoint(0, 10);
+            }
+            else if(line.getName().equals("Lgeneration"))
+            {
+                angle-=Math.toRadians(20);
+                arrow = new Polygon();
+                arrow.addPoint(0, 5);
+                arrow.addPoint(10, 0);
+                arrow.addPoint(0, -5);
             }
             else continue;
             AffineTransform rotation = AffineTransform.getRotateInstance(angle,0, 0);
@@ -249,6 +258,7 @@ public class canva extends JPanel{
             Graphics2D g2d = (Graphics2D) g;
             g2d.setColor(Color.BLACK);
             g2d.drawPolygon(rotatedTriangle);
+
         }    
     
     }
@@ -278,6 +288,7 @@ public class canva extends JPanel{
     }
     public void group()
     {
+        ports.clear();
         int minx,miny,maxx=0,maxy=0;
         minx = (int)selectedObjs.get(0).pos[0].getX();
         miny = (int)selectedObjs.get(0).pos[0].getY();
@@ -296,7 +307,8 @@ public class canva extends JPanel{
         for(Obj obj:selectedObjs)
         {
             objs.remove(obj);
-            remove(obj);
+            //remove(obj);
+            //obj.setVisible(false);
         }
         group.repaint();
         objs.add(group);
@@ -306,14 +318,15 @@ public class canva extends JPanel{
     }
     public void ungroup()
     {
+        ports.clear();
         objs.remove(lastObj);
         remove(lastObj);
         for(Obj component:lastObj.member)
         {
-            component.reset(-(int)lastObj.pos[0].getX(),-(int)lastObj.pos[0].getY());
-            add(component);
+            //component.reset((int)lastObj.pos[0].getX(),-(int)lastObj.pos[0].getY());
+            //add(component);
+            //component.setVisible(true);
             objs.add(component);
-            lastObj.member.remove(component);
         }
         revalidate();
         repaint();

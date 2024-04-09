@@ -39,7 +39,6 @@ public class menu extends JMenuBar {
         public void actionPerformed(ActionEvent e)
         {
             //ungroup();
-
             if(canva.lastObj!=null&&canva.lastObj.componentNum>1)canva.ungroup();
         }
     }
