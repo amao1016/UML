@@ -16,6 +16,7 @@ public class ObjClass extends Obj{
         super.pos[1] = new Point(x+120,y);
         super.pos[2] = new Point(x+120,y+180);
         super.pos[3]= new Point(x,y+180);
+        super.componentNum=1;
         super.connectports[0]=midPoint(pos[0], pos[1]);
         super.connectports[1]=midPoint(pos[1], pos[2]);
         super.connectports[2]=midPoint(pos[2], pos[3]);

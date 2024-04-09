@@ -60,7 +60,6 @@ public class canva extends JPanel{
             System.out.println("Clicked");
             if(selectedButton!=null)selectedButton.Clicked(e.getX(),e.getY());
             repaint();
-
         }
         @Override
         public void mousePressed(MouseEvent e)
@@ -68,12 +67,13 @@ public class canva extends JPanel{
             ports.clear();
             selectedObjs.clear();
             System.out.println("Pressed");
+            
             if(selectedButton!=null)selectedButton.Pressed(e.getX(),e.getY());
         }
         @Override
         public void mouseDragged(MouseEvent e)
         {
-            //ports.clear();
+            ports.clear();
             System.out.println("Dragged");
             if(selectedButton!=null)
             {
@@ -81,13 +81,11 @@ public class canva extends JPanel{
                 {
                     if(notmove) //group
                     {
-                        System.out.println("group");
                         selectedButton.Dragged(selectAreaStartX,selectAreaStartY,e.getX(),e.getY());
                         repaint();
                     }
                     else //move
                     {
-                        System.out.println("Obj move");   
                         lastObj.move(e.getX(), e.getY());
                         repaint();
                     }
@@ -100,11 +98,7 @@ public class canva extends JPanel{
                     selectedButton.Dragged(pressX,pressY,e.getX(),e.getY());
                     repaint();
                 }
-                
-                
-            }
-                //if(currentLine!=null) repaint();
-            
+            }            
         }
         @Override
         public void mouseReleased(MouseEvent e)
@@ -123,15 +117,12 @@ public class canva extends JPanel{
                     if(selectedButton.getName().equals("select")&&selectedObjsNum==1)//Obj move
                     {
                         lastObj.move(e.getX(), e.getY());
-                        //lastObj.repaint();
-                        //repaint();
                         lastObj=null;                     
                     }
                     else//draw line
                     {
                         ports.clear();
                         addport(e.getX(),e.getY(),true);
-                        System.out.println(lastObj.getName());
                         if(connectObj!=null)//上一個不為null
                         {
                             currentLine.endport = lastObj.findport(e.getX(),e.getY());
@@ -154,7 +145,6 @@ public class canva extends JPanel{
                 repaint();
             }
             reset();
-
         }
     }
     public void reset()
@@ -164,6 +154,9 @@ public class canva extends JPanel{
         releaseX=-1;
         releaseY=-1;
         notmove=false;
+        currentLine=null;
+        connectObj=null;
+        lastObj=null;
     }
     public void addport(int x,int y,boolean drawport)
     {
@@ -211,7 +204,7 @@ public class canva extends JPanel{
     protected void paintComponent(Graphics g)//Jcomponents的mothod, JPanel屬Jcomponents
     {
         super.paintComponent(g);
-        for(Obj obj:objs)obj.repaint();
+        //for(Obj obj:objs)obj.repaint();
         drawports(g);
         drawLine(g);
         drawarrow(g);
@@ -297,11 +290,8 @@ public class canva extends JPanel{
                 if(point.getY()<miny) miny = (int)point.getY();
                 if(point.getX()>maxx) maxx = (int)point.getX();
                 if(point.getY()>maxy) maxy = (int)point.getY();
-
             }
-
         }
-        //System.out.println(maxx-minx);
         Obj group = new group(selectedObjs,minx,miny,maxx,maxy);
         for(Obj obj:selectedObjs)
         {
@@ -313,6 +303,19 @@ public class canva extends JPanel{
         add(group);
         revalidate();
         repaint();
-        //selectedObjs.clear();
+    }
+    public void ungroup()
+    {
+        objs.remove(lastObj);
+        remove(lastObj);
+        for(Obj component:lastObj.member)
+        {
+            component.reset(-(int)lastObj.pos[0].getX(),-(int)lastObj.pos[0].getY());
+            add(component);
+            objs.add(component);
+            lastObj.member.remove(component);
+        }
+        revalidate();
+        repaint();
     }
 }

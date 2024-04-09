@@ -21,7 +21,6 @@ public class association extends Button{
         canva.addport(x,y,true);
         canva.currentLine = new Lassociation();
         canva.currentLine.setStart(new Point(x,y));
-        System.out.println(canva.currentLine.getName());
         canva.pressX=x;
         canva.pressY=y;
     }

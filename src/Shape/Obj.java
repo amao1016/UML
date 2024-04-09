@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -12,9 +13,10 @@ public class Obj extends JPanel{
     public Point[] pos = new Point[4]; //順序：象限2143
     public Point[] connectports = new Point[4];//上右下左
     boolean selected;
-    String name;
+    public String name;
     private int x,y;
     public int componentNum;
+    public ArrayList<Obj> member = new ArrayList<>();
 
     public Obj(String name,int x,int y, int w, int h)
     {
@@ -27,6 +29,7 @@ public class Obj extends JPanel{
         setOpaque(false);
         setBounds(x,y,w,h);
     }
+
     Point midPoint(Point a,Point b)
     {
         return new Point((a.x+b.x)/2,(a.y+b.y)/2);
@@ -72,10 +75,6 @@ public class Obj extends JPanel{
             return 0; //上
         }
     }
-    void updatePos(int x,int y)
-    {
-        this.clickPoint = new Point(x,y);
-    }
     boolean isinside(int checkx, int checky, int range_startx, int range_starty,int range_endx, int range_endy) //if check in range
     {
         if(range_startx<checkx && checkx<range_endx && range_starty<checky && checky<range_endy)
@@ -83,7 +82,6 @@ public class Obj extends JPanel{
             return true;
         }
         return false;
-
     }
     public void setName(String name)
     {
@@ -102,6 +100,16 @@ public class Obj extends JPanel{
         connectports[1]=midPoint(pos[1], pos[2]);
         connectports[2]=midPoint(pos[2], pos[3]);
         connectports[3]=midPoint(pos[3], pos[0]);
+    }
+    public void reset(int x, int y)
+    {
+        this.x = this.x-x;
+        this.y = this.y-y;
+        setBounds(this.x,this.y,getWidth(),getHeight());
+        pos[0]= new Point(this.x,this.y);
+        pos[1] = new Point(this.x+getWidth(),this.y);
+        pos[2] = new Point(this.x+getWidth(),this.y+getHeight());
+        pos[3]= new Point(this.x,this.y+getHeight());
     }
 
 }

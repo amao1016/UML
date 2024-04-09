@@ -19,10 +19,10 @@ public class menu extends JMenuBar {
         JMenuItem renameMenuItem = new JMenuItem("change object name");
         groupMenuItem.addActionListener(new groupListener());
         ungroupMenuItem.addActionListener(new ungroupListener());
-        renameMenuItem.addActionListener(new changeNameListenser());
-        editMenu.add(groupMenuItem);
-        editMenu.add(ungroupMenuItem);
+        renameMenuItem.addActionListener(new changeNameListener());
         editMenu.add(renameMenuItem);
+        editMenu.add(ungroupMenuItem);
+        editMenu.add(groupMenuItem);
         add(fileMenu);
         add(editMenu);
     }
@@ -32,7 +32,6 @@ public class menu extends JMenuBar {
         {
             //group();
             if(canva.selectedObjsNum>1)canva.group();
-            System.out.println("Group");
         }
     }
     class ungroupListener implements ActionListener
@@ -40,15 +39,17 @@ public class menu extends JMenuBar {
         public void actionPerformed(ActionEvent e)
         {
             //ungroup();
+
+            if(canva.lastObj!=null&&canva.lastObj.componentNum>1)canva.ungroup();
         }
     }
-    class changeNameListenser implements ActionListener
+    class changeNameListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
         {
-            if(canva.selectedObjsNum==1)
+            if(canva.selectedObjsNum==1&&canva.lastObj.componentNum==1)
             {
-                String newName = JOptionPane.showInputDialog("Enter new name:");
+                String newName = JOptionPane.showInputDialog("Change Name:");
                 if (newName != null && !newName.isEmpty()) 
                 {
                     canva.lastObj.setName(newName);

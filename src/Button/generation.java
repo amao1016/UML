@@ -17,7 +17,6 @@ public class generation extends Button{
         canva.addport(x,y,true);
         canva.currentLine = new Lgeneration();
         canva.currentLine.setStart(new Point(x,y));
-        System.out.println(canva.currentLine.getName());
         canva.pressX=x;
         canva.pressY=y;
                 
