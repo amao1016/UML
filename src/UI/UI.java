@@ -11,12 +11,12 @@ public class UI extends JFrame {
         setSize(900, 600);
         setResizable(false);
 
-        setJMenuBar(new menu(this));
         JPanel contentPane = new JPanel(new BorderLayout());
         canva rightPanel = new canva(this);
         contentPane.add(rightPanel, BorderLayout.CENTER);
         functionPanel leftPanel = new functionPanel(this,rightPanel);      
         contentPane.add(leftPanel, BorderLayout.LINE_START); 
+        setJMenuBar(new menu(this,rightPanel));
 
         setContentPane(contentPane);
     }

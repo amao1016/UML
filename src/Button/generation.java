@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 import UI.canva;
 import Shape.Line;
 import Shape.Lgeneration;
+import Shape.Obj;
 public class generation extends Button{
     public generation(ImageIcon icon,canva canva)
     {
@@ -28,9 +29,9 @@ public class generation extends Button{
         canva.releaseY=endy;
     }
     @Override
-    public void Released(int startx,int starty,int endx,int endy)
+    public void Released(int startx,int starty,int endx,int endy, Obj firObj, Obj secObj,int startport,int endport)
     {
-        Line line = new Lgeneration(startx,starty,endx,endy);
+        Line line = new Lgeneration(startx,starty,endx,endy,firObj,secObj, startport, endport);
         canva.currentLine=line;
     }
 }

@@ -8,6 +8,8 @@ public class Line extends JPanel{
     public Point start;
     public Point end;
     private String typename;
+    public Obj firstObj,secObj;
+    public int startport,endport;
     public Line(String name)
     {
         this.typename=name;

@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import UI.canva;
 import Shape.Line;
 import Shape.Lassociation;
+import Shape.Obj;
 
 public class association extends Button{
     private Line l;
@@ -31,9 +32,9 @@ public class association extends Button{
         canva.releaseY=endy;
     }
     @Override
-    public void Released(int startx,int starty,int endx,int endy)
+    public void Released(int startx,int starty,int endx,int endy,Obj firstObj,Obj secObj,int startport, int endport)
     {
-        Line line = new Lassociation(startx,starty,endx,endy);
+        Line line = new Lassociation(startx,starty,endx,endy,firstObj,secObj,startport,endport);
         canva.currentLine=line;
     }
 }

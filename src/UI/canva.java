@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -33,7 +34,8 @@ public class canva extends JPanel{
     public ArrayList<ArrayList<Obj>> groupList=new ArrayList<>();
     private ArrayList<Line> Lines = new ArrayList<>();
     Button selectedButton;
-    public static ArrayList<Obj> objs = new ArrayList<Obj>();
+    public static ArrayList<Obj> objs = new ArrayList<>();
+    ArrayList<Obj> connecList = new ArrayList<>();
     boolean mouseE=false;
     static int width, height;
     public static boolean notmove;
@@ -75,27 +77,29 @@ public class canva extends JPanel{
             System.out.println("Dragged");
             if(selectedButton!=null)
             {
-                    if(selectedButton.getName().equals("select"))
+                if(selectedButton.getName().equals("select"))
+                {
+                    if(notmove) //group
                     {
-                        if(notmove) 
-                        {
-                            selectedButton.Dragged(selectAreaStartX,selectAreaStartY,e.getX(),e.getY());
-                            repaint();
-                        }
-                        else
-                        {
-                                lastObj.move(e.getX(), e.getY());
-                                lastObj.repaint();
-                        }
-                    }
-                    else if(lastObj!=null)//line
-                    {
-                        Point p = lastObj.findport(pressX,pressY);
-                        pressX = (int)p.getX();
-                        pressY = (int)p.getY();
-                        selectedButton.Dragged(pressX,pressY,e.getX(),e.getY());
+                        System.out.println("group");
+                        selectedButton.Dragged(selectAreaStartX,selectAreaStartY,e.getX(),e.getY());
                         repaint();
                     }
+                    else //move
+                    {
+                        System.out.println("Obj move");   
+                        lastObj.move(e.getX(), e.getY());
+                        repaint();
+                    }
+                }
+                else if(lastObj!=null)//draw line
+                {
+                    currentLine.startport = lastObj.findport(pressX,pressY);
+                    pressX = (int)lastObj.connectports[currentLine.startport].getX();
+                    pressY = (int)lastObj.connectports[currentLine.startport].getY();
+                    selectedButton.Dragged(pressX,pressY,e.getX(),e.getY());
+                    repaint();
+                }
                 
                 
             }
@@ -110,33 +114,41 @@ public class canva extends JPanel{
             {
                 if(notmove&&selectedButton.getName().equals("select"))
                 {
-                    selectedButton.Released(selectAreaStartX,selectAreaStartY,e.getX(),e.getY());
+                    ports.clear();
+                    selectedObjs.clear();
+                    selectedButton.Released(selectAreaStartX,selectAreaStartY,e.getX(),e.getY(),connectObj,lastObj,0,0);
                 }
                 else if(lastObj!=null) 
                 {
                     if(selectedButton.getName().equals("select")&&selectedObjsNum==1)//Obj move
                     {
                         lastObj.move(e.getX(), e.getY());
-                        lastObj.repaint();
+                        //lastObj.repaint();
+                        //repaint();
                         lastObj=null;                     
                     }
-                    else
+                    else//draw line
                     {
-                        System.out.println(lastObj.getName());
                         ports.clear();
                         addport(e.getX(),e.getY(),true);
-                        if(connectObj!=null)
+                        System.out.println(lastObj.getName());
+                        if(connectObj!=null)//上一個不為null
                         {
-                            Point p = lastObj.findport(e.getX(),e.getY());
-                            releaseX = (int)p.getX();
-                            releaseY = (int)p.getY();
-                            selectedButton.Released(pressX,pressY,releaseX,releaseY);
+                            currentLine.endport = lastObj.findport(e.getX(),e.getY());
+                            releaseX = (int)lastObj.connectports[currentLine.endport].getX();
+                            releaseY = (int)lastObj.connectports[currentLine.endport].getY();
+                            selectedButton.Released(pressX,pressY,releaseX,releaseY,connectObj,lastObj,currentLine.startport, currentLine.endport);
                             if(currentLine!=null)
                             {
                                 Lines.add(currentLine);
+                                if(!connecList.contains(currentLine.firstObj)) connecList.add(currentLine.firstObj);
+                                if(!connecList.contains(currentLine.secObj)) connecList.add(currentLine.secObj);
                                 currentLine=null;
+                                connectObj=null;
+                                lastObj=null;
                             }
                         }
+                        //selectedObjs.clear();
                     }
                 }
                 repaint();
@@ -174,7 +186,8 @@ public class canva extends JPanel{
         }
         if(connectObj!=null)
         {
-            if(connectObj.equals(lastObj)&&!selectedButton.getName().equals("select"))connectObj=null;
+            if(connectObj.equals(lastObj)&&!selectedButton.getName().equals("select"))
+                connectObj=null;
         }
         if(selectedObjsNum==0)notmove=true;
     }
@@ -198,34 +211,66 @@ public class canva extends JPanel{
     protected void paintComponent(Graphics g)//Jcomponents的mothod, JPanel屬Jcomponents
     {
         super.paintComponent(g);
+        for(Obj obj:objs)obj.repaint();
         drawports(g);
         drawLine(g);
-        //drawarrow(g);
+        drawarrow(g);
 
     }
     public void drawarrow(Graphics g)
     {
         for(Line line:Lines)
         {
-            int m = (line.end.y-line.start.y)/(line.end.x-line.start.x);
-            double angle = Math.atan(m);
-            g.setColor(Color.BLACK);
+            int endy=(int)line.secObj.connectports[line.endport].getY();
+            int endx = (int)line.secObj.connectports[line.endport].getX();
+            int starty=(int)line.firstObj.connectports[line.startport].getY();
+            int startx = (int)line.firstObj.connectports[line.startport].getX();
+            //int m = (endy-starty)/(endx-startx);
+            double angle = Math.atan2(endy-starty,endx-startx);
+            Polygon arrow;
+            if(line.getName().equals("Lgeneration"))
+            {
+                angle-=Math.toRadians(20);
+                arrow = new Polygon();
+                arrow.addPoint(0, 5);
+                arrow.addPoint(10, 0);
+                arrow.addPoint(0, -5);
+            }
+            else if(line.getName().equals("Lcomposition"))
+            {
+                angle-=Math.toRadians(45);
+                arrow = new Polygon();
+                arrow.addPoint(0, 0);
+                arrow.addPoint(10, 0);
+                arrow.addPoint(10, 10);
+                arrow.addPoint(0, 10);
+            }
+            else continue;
+            AffineTransform rotation = AffineTransform.getRotateInstance(angle,0, 0);
+            Polygon rotatedTriangle = new Polygon();
+            for (int i = 0; i < arrow.npoints; i++) {
+                Point p = new Point(arrow.xpoints[i], arrow.ypoints[i]);
+                rotation.transform(p, p);
+                rotatedTriangle.addPoint(p.x+endx, p.y+endy);
+            }
             Graphics2D g2d = (Graphics2D) g;
-            AffineTransform rotation = AffineTransform.getRotateInstance(angle, line.start.x, line.start.x);
-            g2d.setTransform(rotation);
-    
             g2d.setColor(Color.BLACK);
-            g2d.drawRect(line.end.x,line.end.y,5,5);
+            g2d.drawPolygon(rotatedTriangle);
         }    
     
     }
     public void drawLine(Graphics g)
     {
         g.setColor(Color.BLACK);
-        if(currentLine!=null)g.drawLine(pressX, pressY, releaseX, releaseY);
+        if(currentLine!=null) g.drawLine(pressX, pressY, releaseX, releaseY);
+        int startx,starty,endx,endy;
         for(Line line:Lines)
         {
-            g.drawLine(line.start.x, line.start.y,line.end.x, line.end.y);
+            startx = (int)line.firstObj.connectports[line.startport].getX();
+            starty = (int)line.firstObj.connectports[line.startport].getY();
+            endx = (int)line.secObj.connectports[line.endport].getX();
+            endy = (int)line.secObj.connectports[line.endport].getY();
+            g.drawLine(startx, starty,endx, endy);
         }
     }
     public void drawports(Graphics g)
@@ -238,17 +283,36 @@ public class canva extends JPanel{
         selectedButton = btn;
         lastObj=null;
     }
-    public static void group()
+    public void group()
     {
-        int minx=width+1,miny=height+1,maxx=0,maxy=0;
+        int minx,miny,maxx=0,maxy=0;
+        minx = (int)selectedObjs.get(0).pos[0].getX();
+        miny = (int)selectedObjs.get(0).pos[0].getY();
+        System.out.println(selectedObjs.size());
         for(Obj obj:selectedObjs)
         {
-            if(obj.pos[0].getX()<minx) minx = (int)obj.pos[0].getX();
-            if(obj.pos[0].getY()<miny) minx = (int)obj.pos[0].getY();
-            if(obj.pos[2].getX()>maxx) maxx = (int)obj.pos[0].getX();
-            if(obj.pos[2].getY()>maxy) maxy = (int)obj.pos[0].getY();
+            for(Point point:obj.pos)
+            {
+                if(point.getX()<minx) minx = (int)point.getX();
+                if(point.getY()<miny) miny = (int)point.getY();
+                if(point.getX()>maxx) maxx = (int)point.getX();
+                if(point.getY()>maxy) maxy = (int)point.getY();
+
+            }
+
         }
+        //System.out.println(maxx-minx);
         Obj group = new group(selectedObjs,minx,miny,maxx,maxy);
+        for(Obj obj:selectedObjs)
+        {
+            objs.remove(obj);
+            remove(obj);
+        }
+        group.repaint();
         objs.add(group);
+        add(group);
+        revalidate();
+        repaint();
+        //selectedObjs.clear();
     }
 }

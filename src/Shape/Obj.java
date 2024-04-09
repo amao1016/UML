@@ -14,6 +14,7 @@ public class Obj extends JPanel{
     boolean selected;
     String name;
     private int x,y;
+    public int componentNum;
 
     public Obj(String name,int x,int y, int w, int h)
     {
@@ -50,19 +51,19 @@ public class Obj extends JPanel{
         for(int i=0; i<4; i++)
             g.fillRect((int)connectports[i].getX(), (int)connectports[i].getY(), 3, 3);
     }
-    public Point findport(int x,int y)//選上下左右
+    public int findport(int x,int y)//選上下左右
     {
         boolean firstDiagonal = (x - pos[0].x) * (pos[2].y - pos[0].y) - (y - pos[0].y) * (pos[2].x - pos[0].x) > 0;//左到右的對角線，>0 在右側
         boolean secDiagonal = (x - pos[1].x) * (pos[3].y - pos[1].y) - (y - pos[1].y) * (pos[3].x - pos[1].x) > 0;//右到左的對角線
 
         if (firstDiagonal && secDiagonal) {
-            return connectports[1]; //右
+            return 1; //右
         } else if (!firstDiagonal && secDiagonal) {
-            return connectports[2]; //下
+            return 2; //下
         } else if (!firstDiagonal && !secDiagonal) {
-            return connectports[3]; //左
+            return 3; //左
         } else {
-            return connectports[0]; //上
+            return 0; //上
         }
     }
     void updatePos(int x,int y)
@@ -88,9 +89,9 @@ public class Obj extends JPanel{
         this.y = y;
         setBounds(x,y,getWidth(),getHeight());
         pos[0]= new Point(x,y);
-        pos[1] = new Point(x+120,y);
-        pos[2] = new Point(x+120,y+180);
-        pos[3]= new Point(x,y+180);
+        pos[1] = new Point(x+getWidth(),y);
+        pos[2] = new Point(x+getWidth(),y+getHeight());
+        pos[3]= new Point(x,y+getHeight());
         connectports[0]=midPoint(pos[0], pos[1]);
         connectports[1]=midPoint(pos[1], pos[2]);
         connectports[2]=midPoint(pos[2], pos[3]);

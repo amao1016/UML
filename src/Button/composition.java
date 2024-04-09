@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 import UI.canva;
 import Shape.Lcomposition;
 import Shape.Line;
+import Shape.Obj;
 public class composition extends Button{
     public composition(ImageIcon icon,canva canva)
     {
@@ -27,9 +28,9 @@ public class composition extends Button{
         canva.releaseY=endy;
     }
     @Override
-    public void Released(int startx,int starty,int endx,int endy)
+    public void Released(int startx,int starty,int endx,int endy, Obj firObj, Obj secObj,int startport,int endport)
     {
-        Line line = new Lcomposition(startx,starty,endx,endy);
+        Line line = new Lcomposition(startx,starty,endx,endy,firObj,secObj,startport,endport);
         canva.currentLine=line;
     }
 }

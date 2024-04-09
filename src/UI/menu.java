@@ -7,9 +7,11 @@ import UI.canva;
 
 public class menu extends JMenuBar {
     private UI ui;
-    public menu(UI ui)
+    private canva canva;
+    public menu(UI ui,canva canva)
     {
         this.ui=ui;
+        this.canva=canva;
         JMenu fileMenu = new JMenu("File");
         JMenu editMenu = new JMenu("Edit");
         JMenuItem groupMenuItem = new JMenuItem("Group");
@@ -30,6 +32,7 @@ public class menu extends JMenuBar {
         {
             //group();
             if(canva.selectedObjsNum>1)canva.group();
+            System.out.println("Group");
         }
     }
     class ungroupListener implements ActionListener
