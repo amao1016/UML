@@ -26,8 +26,6 @@ public class select extends Button{
     @Override
     public void Dragged(int startx,int starty,int endx,int endy)
     {
-        if(startx >= endx) startx = swap(endx,endx=startx);
-        if(starty >= endy) starty = swap(endy,endy=starty);
         canva.selectAreaStartX=startx;
         canva.selectAreaStartY=starty;
         canva.selectAreaEndX=endx;
@@ -37,17 +35,11 @@ public class select extends Button{
     @Override
     public void Released(int startx,int starty,int endx,int endy,Obj firObj,Obj secObj,int startport,int endport)
     {
-        if(startx >= endx) startx = swap(endx,endx=startx);
-        if(starty >= endy) starty = swap(endy,endy=starty);
         canva.selectAreaStartX=startx;
         canva.selectAreaStartY=starty;
         canva.selectAreaEndX=endx;
         canva.selectAreaEndY=endy;
         canva.addport();
 
-    }
-    int swap(int a,int b)
-    {
-        return a;
     }
 }

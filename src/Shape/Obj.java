@@ -38,12 +38,18 @@ public class Obj extends JPanel{
     }
     public boolean ifselected(int startx, int starty, int endx, int endy)//被圈起來的時候，反向的insideObj
     {
+        if(startx>endx)startx=swap(endx,endx=startx);
+        if(starty>endy)starty=swap(endy,endy=starty);
         if ((isinside(pos[0].x, pos[0].y, startx, starty, endx, endy)) 
         &&(isinside(pos[2].x, pos[2].y, startx, starty, endx, endy))) 
         {
             return true;
         }
         return false;
+    }
+    int swap(int a,int b)
+    {
+        return a;
     }
     public void drawports(Graphics g)//not used now 
     {
