@@ -8,7 +8,7 @@ public class useClass extends Button{
 
     public useClass(ImageIcon icon,canva canva)
     {
-        super("useClass",icon,canva);
+        super(ButtonType.useClass,icon,canva);
     }
     public void Clicked(int x,int y)
     {

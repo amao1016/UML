@@ -5,7 +5,7 @@ import Shape.Obj;
 public class select extends Button{
     public select(ImageIcon icon,canva canva)
     {
-        super("select",icon,canva);
+        super(ButtonType.select,icon,canva);
     }
     @Override
     public void Clicked(int x,int y)

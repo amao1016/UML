@@ -7,7 +7,7 @@ import Shape.ObjClass;
 public class Class extends Button{
     public Class(ImageIcon icon,canva canva)
     {
-        super("Class",icon,canva);
+        super(ButtonType.Class,icon,canva);
     }
     @Override
     public void Clicked(int x,int y)

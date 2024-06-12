@@ -9,7 +9,7 @@ import Shape.Obj;
 public class generation extends Button{
     public generation(ImageIcon icon,canva canva)
     {
-        super("generation",icon,canva);
+        super(ButtonType.generation,icon,canva);
     }
     @Override
     public void Pressed(int x,int y)

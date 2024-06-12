@@ -13,7 +13,7 @@ public class association extends Button{
     private Line l;
     public association(ImageIcon icon,canva canva)
     {
-        super("association",icon,canva);
+        super(ButtonType.association,icon,canva);
     }
     @Override
     public void Pressed(int x,int y)

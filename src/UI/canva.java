@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import Button.Button;
+import Button.ButtonType;
 import Shape.Obj;
 import Shape.group;
 import Shape.Line;
@@ -75,7 +76,7 @@ public class canva extends JPanel{
             ports.clear();
             System.out.println("Dragged");
             if(selectedButton==null)return;
-            if(selectedButton.getName().equals("select"))
+            if(selectedButton.getType()==ButtonType.select)
             {
                 if(notmove) //group
                 {
@@ -106,7 +107,7 @@ public class canva extends JPanel{
             System.out.println("Released");
             if(selectedButton==null)return;
             
-                if(notmove&&selectedButton.getName().equals("select"))
+                if(notmove&&selectedButton.getType()==ButtonType.select)
                 {
                     ports.clear();
                     selectedObjs.clear();
@@ -114,7 +115,7 @@ public class canva extends JPanel{
                 }
                 else if(lastObj!=null) 
                 {
-                    if(selectedButton.getName().equals("select")&&selectedObjsNum==1)//Obj move
+                    if(selectedButton.getType()==ButtonType.select &&selectedObjsNum==1)//Obj move
                     {
                         lastObj.move(e.getX()-pressX, e.getY()-pressY);
                         lastObj=null;                     
@@ -179,7 +180,7 @@ public class canva extends JPanel{
         }
         if(connectObj!=null)
         {
-            if((connectObj.equals(lastObj)&&!selectedButton.getName().equals("select"))||connectObj instanceof group)
+            if((connectObj.equals(lastObj)&&selectedButton.getType()!=ButtonType.select)||connectObj instanceof group)
                 connectObj=null;
             
         }

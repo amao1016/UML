@@ -9,7 +9,7 @@ import Shape.Obj;
 public class composition extends Button{
     public composition(ImageIcon icon,canva canva)
     {
-        super("composition",icon,canva);
+        super(ButtonType.composition,icon,canva);
     }
     @Override
     public void Pressed(int x,int y)

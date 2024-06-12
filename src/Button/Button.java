@@ -8,9 +8,9 @@ import javax.swing.ImageIcon;
 
 import UI.canva;
 public class Button extends JButton{
-    private String name;
+    private ButtonType name;
     protected canva canva;
-    public Button(String name, ImageIcon icon,canva canva)
+    public Button(ButtonType name, ImageIcon icon,canva canva)
     {
         super(icon);
         this.name = name;
@@ -21,7 +21,7 @@ public class Button extends JButton{
     public void Dragged(int startx,int starty,int endx,int endy){}
     public void Released(int startx,int starty,int endx,int endy, Obj firObj, Obj secObj,int startport,int endport){}
 
-    public String getName()
+    public ButtonType getType()
     {
         return name;
     }
