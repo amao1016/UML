@@ -14,7 +14,7 @@ public class Obj extends JPanel{
     public Point[] connectports = new Point[4];//上右下左
     boolean selected;
     public String name;
-    private int x,y;
+    protected int x,y;
     public int componentNum;
     public ArrayList<Obj> member = new ArrayList<>();
 

@@ -22,9 +22,9 @@ The `JAVA PROJECTS` view allows you to manage your dependencies. More details ca
 - 創建obj不能在obj上點(解決depth的時候莫名其妙就跟著解決ㄌ)
 - 移動物件(用lastObj)
 - line連到port
+- draw arrow箭頭尾巴還沒畫
+- Obj移動時已連的線跟著移動(class line加入obj來源，和第幾個port) 
 ## Problem now
-- draw arrow箭頭尾巴還沒畫(現在畫的位置不對)
-- Obj移動時已連的線跟著移動(目前想法：加入一個lineport紀錄已連線的port，或加入一個lineObj紀錄已被連線的obj) 紀錄線的應該要自己寫一個class，紀錄原obj
-- group(可以group到有連線的物體ㄇ 阿好像應該要可以)
+- 看起來好像是沒有了嗎
 ## murmur
 為了解決select的選取還是拖曳，code變超醜= =

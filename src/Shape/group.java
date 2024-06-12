@@ -1,9 +1,7 @@
 package Shape;
 
 import java.awt.Color;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
 import java.awt.Point;
 import java.util.ArrayList;
 public class group extends Obj{
@@ -25,12 +23,8 @@ public class group extends Obj{
         super.componentNum=member.size();
         this.minx=minX;
         this.miny=minY;
+        findallmember(member);
 
-        for(Obj mem:member)
-        {
-            super.member.add(mem);
-            this.member.add(mem);
-        }
     }
     @Override
     protected void paintComponent(Graphics g)
@@ -39,5 +33,34 @@ public class group extends Obj{
         g.setColor(Color.BLACK);
         g.drawRect(0, 0, getWidth()-1, getHeight()-1);
     }
-    
+    @Override
+    public void move(int x, int y)
+    {        
+        this.x += x;
+        this.y += y;
+        setBounds(this.x,this.y,getWidth(),getHeight());
+        pos[0]= new Point(this.x,this.y);
+        pos[1] = new Point(this.x+getWidth(),this.y);
+        pos[2] = new Point(this.x+getWidth(),this.y+getHeight());
+        pos[3]= new Point(this.x,this.y+getHeight());
+        connectports[0]=midPoint(pos[0], pos[1]);
+        connectports[1]=midPoint(pos[1], pos[2]);
+        connectports[2]=midPoint(pos[2], pos[3]);
+        connectports[3]=midPoint(pos[3], pos[0]);
+        for (Obj mem : member) {
+            mem.move(x, y);
+        }
+    }
+    private void findallmember(ArrayList<Obj> member) 
+    {
+        for (Obj obj : member) {
+            if (obj instanceof group) 
+            {
+                
+                findallmember(((group) obj).member);
+            } 
+            this.member.add(obj);
+            super.member.add(obj);
+        }
+    }
 }

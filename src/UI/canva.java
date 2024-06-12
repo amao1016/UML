@@ -7,13 +7,8 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 import javax.swing.JPanel;
 import Button.Button;
@@ -55,67 +50,62 @@ public class canva extends JPanel{
         @Override
         public void mouseClicked(MouseEvent e)
         {
+            if(selectedButton==null)return;
+
             ports.clear();
             selectedObjs.clear();
             System.out.println("Clicked");
-            if(selectedButton!=null)selectedButton.Clicked(e.getX(),e.getY());
+            selectedButton.Clicked(e.getX(),e.getY());
             repaint();
         }
         @Override
         public void mousePressed(MouseEvent e)
         {
+            if(selectedButton==null)return;
+
             ports.clear();
             selectedObjs.clear();
             System.out.println("Pressed");
             
-            if(selectedButton!=null)selectedButton.Pressed(e.getX(),e.getY());
+            selectedButton.Pressed(e.getX(),e.getY());
         }
         @Override
         public void mouseDragged(MouseEvent e)
         {
             ports.clear();
             System.out.println("Dragged");
-            if(selectedButton!=null)
+            if(selectedButton==null)return;
+            if(selectedButton.getName().equals("select"))
             {
-                if(selectedButton.getName().equals("select"))
+                if(notmove) //group
                 {
-                    if(notmove) //group
-                    {
-                        selectedButton.Dragged(selectAreaStartX,selectAreaStartY,e.getX(),e.getY());
-                        repaint();
-                    }
-                    else //move
-                    {
-                        if(lastObj.getName().equals("Group"))
-                        {
-                            System.out.println(lastObj.componentNum);
-                           for(Obj obj:lastObj.member)
-                            {
-                                obj.move(e.getX()-pressX, e.getY()-pressY);
-                            }
-                        }
-                        lastObj.move(e.getX()-pressX, e.getY()-pressY);
-                        pressX=e.getX();
-                        pressY=e.getY();
-                        repaint();
-                    }
-                }
-                else if(lastObj!=null)//draw line
-                {
-                    currentLine.startport = lastObj.findport(pressX,pressY);
-                    pressX = (int)lastObj.connectports[currentLine.startport].getX();
-                    pressY = (int)lastObj.connectports[currentLine.startport].getY();
-                    selectedButton.Dragged(pressX,pressY,e.getX(),e.getY());
+                    selectedButton.Dragged(selectAreaStartX,selectAreaStartY,e.getX(),e.getY());
                     repaint();
                 }
-            }            
+                else //move
+                {
+                    lastObj.move(e.getX()-pressX, e.getY()-pressY);
+                    pressX=e.getX();
+                    pressY=e.getY();
+                    repaint();
+                }
+            }
+            else if(lastObj!=null&&lastObj.componentNum==1)//draw line
+            {
+                currentLine.startport = lastObj.findport(pressX,pressY);
+                pressX = (int)lastObj.connectports[currentLine.startport].getX();
+                pressY = (int)lastObj.connectports[currentLine.startport].getY();
+                selectedButton.Dragged(pressX,pressY,e.getX(),e.getY());
+                repaint();
+            }
+                        
         }
         @Override
         public void mouseReleased(MouseEvent e)
         {
             System.out.println("Released");
-            if(selectedButton!=null)
-            {
+            if(selectedButton==null)return;
+            
                 if(notmove&&selectedButton.getName().equals("select"))
                 {
                     ports.clear();
@@ -129,11 +119,11 @@ public class canva extends JPanel{
                         lastObj.move(e.getX()-pressX, e.getY()-pressY);
                         lastObj=null;                     
                     }
-                    else//draw line
+                    else 
                     {
                         ports.clear();
                         addport(e.getX(),e.getY(),true);
-                        if(connectObj!=null)//上一個不為null
+                        if(connectObj!=null&& lastObj.componentNum==1)//上一個不為null
                         {
                             currentLine.endport = lastObj.findport(e.getX(),e.getY());
                             releaseX = (int)lastObj.connectports[currentLine.endport].getX();
@@ -153,7 +143,7 @@ public class canva extends JPanel{
                     }
                 }
                 repaint();
-            }
+            
             reset();
         }
     }
@@ -168,7 +158,7 @@ public class canva extends JPanel{
         connectObj=null;
         lastObj=null;
     }
-    public void addport(int x,int y,boolean drawport)
+    public void addport(int x,int y,boolean drawport)//line to Obj,show port
     {
         selectedObjsNum=0;
         connectObj = lastObj;
@@ -189,12 +179,13 @@ public class canva extends JPanel{
         }
         if(connectObj!=null)
         {
-            if(connectObj.equals(lastObj)&&!selectedButton.getName().equals("select"))
+            if((connectObj.equals(lastObj)&&!selectedButton.getName().equals("select"))||connectObj instanceof group)
                 connectObj=null;
+            
         }
         if(selectedObjsNum==0)notmove=true;
     }
-    public void addport()
+    public void addport()//select
     {
         selectedObjsNum=0;
         for(Obj obj:objs)
@@ -202,7 +193,7 @@ public class canva extends JPanel{
             if(obj.ifselected(selectAreaStartX,selectAreaStartY,selectAreaEndX,selectAreaEndY))
             {
                 for(Point connect:obj.connectports)
-                ports.add(connect);
+                    ports.add(connect);
                 selectedObjs.add(obj);
                 selectedObjsNum++;
             }
@@ -308,12 +299,11 @@ public class canva extends JPanel{
         {
             objs.remove(obj);
             //remove(obj);
-            //obj.setVisible(false);
         }
         group.repaint();
         objs.add(group);
         add(group);
-        revalidate();
+        //revalidate();因為沒有刪掉所以不需要用這個
         repaint();
     }
     public void ungroup()
@@ -328,7 +318,7 @@ public class canva extends JPanel{
             //component.setVisible(true);
             objs.add(component);
         }
-        revalidate();
+        //revalidate();
         repaint();
     }
 }
