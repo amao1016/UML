@@ -47,7 +47,7 @@ public class Line extends JPanel{
         // }
         // drawarrow(g);
     }
-    public void drawarrow(Graphics g)
+    public void drawarrow(Graphics g, double angle, int endx, int endy)
     {
 
     }

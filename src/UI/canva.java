@@ -208,51 +208,8 @@ public class canva extends JPanel{
         super.paintComponent(g);
         //for(Obj obj:objs)obj.repaint();
         drawports(g);
-        drawarrow(g);
+        //drawarrow(g);
         drawLine(g);
-    }
-    public void drawarrow(Graphics g)
-    {
-        for(Line line:Lines)
-        {
-            int endy=(int)line.secObj.connectports[line.endport].getY();
-            int endx = (int)line.secObj.connectports[line.endport].getX();
-            int starty=(int)line.firstObj.connectports[line.startport].getY();
-            int startx = (int)line.firstObj.connectports[line.startport].getX();
-            //int m = (endy-starty)/(endx-startx);
-            double angle = Math.atan2(endy-starty,endx-startx);
-            Polygon arrow;
-            if(line.getName().equals("Lcomposition"))
-            {
-                angle-=Math.toRadians(45);
-                arrow = new Polygon();
-                arrow.addPoint(0, 0);
-                arrow.addPoint(10, 0);
-                arrow.addPoint(10, 10);
-                arrow.addPoint(0, 10);
-            }
-            else if(line.getName().equals("Lgeneration"))
-            {
-                angle-=Math.toRadians(20);
-                arrow = new Polygon();
-                arrow.addPoint(0, 5);
-                arrow.addPoint(10, 0);
-                arrow.addPoint(0, -5);
-            }
-            else continue;
-            AffineTransform rotation = AffineTransform.getRotateInstance(angle,0, 0);
-            Polygon rotatedTriangle = new Polygon();
-            for (int i = 0; i < arrow.npoints; i++) {
-                Point p = new Point(arrow.xpoints[i], arrow.ypoints[i]);
-                rotation.transform(p, p);
-                rotatedTriangle.addPoint(p.x+endx, p.y+endy);
-            }
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setColor(Color.BLACK);
-            g2d.drawPolygon(rotatedTriangle);
-
-        }    
-    
     }
     public void drawLine(Graphics g)
     {
@@ -265,7 +222,9 @@ public class canva extends JPanel{
             starty = (int)line.firstObj.connectports[line.startport].getY();
             endx = (int)line.secObj.connectports[line.endport].getX();
             endy = (int)line.secObj.connectports[line.endport].getY();
+            double angle = Math.atan2(endy-starty,endx-startx);
             g.drawLine(startx, starty,endx, endy);
+            line.drawarrow(g,angle,endx,endy);
         }
     }
     public void drawports(Graphics g)
