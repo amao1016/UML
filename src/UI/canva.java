@@ -2,12 +2,9 @@ package UI;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -163,18 +160,19 @@ public class canva extends JPanel{
     {
         selectedObjsNum=0;
         connectObj = lastObj;
-        for(int i=objs.size()-1;i>=0;i--)
+
+        for(Obj obj:objs)
         {
-            if(objs.get(i).insideObj(x,y))
+            if(obj.insideObj(x,y))
             {
-                if(drawport)
+                if(drawport&&obj instanceof group==false)
                 {
-                    for(Point connect:objs.get(i).connectports)
-                        ports.add(connect);
+                    for(Point connect:obj.connectports)
+                    ports.add(connect);
                 }
                 //selectedObjs.add(obj);
                 selectedObjsNum++;
-                lastObj = objs.get(i);
+                lastObj = obj;
                 break;
             }
         }
@@ -193,22 +191,21 @@ public class canva extends JPanel{
         {
             if(obj.ifselected(selectAreaStartX,selectAreaStartY,selectAreaEndX,selectAreaEndY))
             {
-                for(Point connect:obj.connectports)
-                    ports.add(connect);
+                if(obj instanceof group==false)
+                {
+                    for(Point connect:obj.connectports) ports.add(connect);
+                }
                 selectedObjs.add(obj);
                 selectedObjsNum++;
             }
         }
-        //System.out.println(selectedObjsNum);
         if(selectedObjsNum>=1)lastObj = selectedObjs.getLast();
 
     }
     protected void paintComponent(Graphics g)//Jcomponents的mothod, JPanel屬Jcomponents
     {
         super.paintComponent(g);
-        //for(Obj obj:objs)obj.repaint();
         drawports(g);
-        //drawarrow(g);
         drawLine(g);
     }
     public void drawLine(Graphics g)
@@ -273,12 +270,8 @@ public class canva extends JPanel{
         remove(lastObj);
         for(Obj component:lastObj.member)
         {
-            //component.reset((int)lastObj.pos[0].getX(),-(int)lastObj.pos[0].getY());
-            //add(component);
-            //component.setVisible(true);
             objs.add(component);
         }
-        //revalidate();
         repaint();
     }
 }

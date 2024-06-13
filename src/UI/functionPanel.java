@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import Button.Button;
 import Button.ButtonFactory;
+import Button.ButtonType;
 import UI.canva;
 public class functionPanel extends JPanel{
         private UI ui;
@@ -23,15 +24,14 @@ public class functionPanel extends JPanel{
             Image image;
             String[] iconPaths = {"select.png", "AssociationLineIcon.png", "GenerationLineIcon.png",
             "CompositionLineIcon.png", "ClassIcon.png", "UseCaseIcon.png"};
-            String[] btn_name = {"select", "AssociationLine", "GenerationLine",
-            "CompositionLine", "Class", "UseCase"};
+            ButtonType[] btn_name = {ButtonType.select, ButtonType.association, ButtonType.generation, ButtonType.composition,
+                                    ButtonType.Class, ButtonType.useClass};
             for (int i = 0; i < buttons.length; i++) 
             {
                 icon = new ImageIcon(iconPaths[i]);
                 image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
                 icon = new ImageIcon(image);
                 buttons[i] = ButtonFactory.createButton(btn_name[i], icon,canva);
-                //buttons[i].setName(btn_name[i]);
                 buttons[i].addActionListener(new buttonListener());
                 buttons[i].setFocusPainted(false); 
                 buttons[i].setBackground(new Color(105, 105, 105));
@@ -52,7 +52,6 @@ public class functionPanel extends JPanel{
                 selectedButton.setBackground(Color.BLACK);
                 lastSelectedButton = selectedButton;
                 canva.setSelectedbtn(selectedButton);
-                //System.out.println(selectedButton.getName());
             }
         }
 

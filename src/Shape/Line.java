@@ -31,24 +31,9 @@ public class Line extends JPanel{
     {
         this.end = end;
     }
-    @Override
-    public void paintComponent(Graphics g)
-    {
-        // g.setColor(Color.BLACK);
-        // if(currentLine!=null) g.drawLine(pressX, pressY, releaseX, releaseY);
-        // int startx,starty,endx,endy;
-        // for(Line line:Lines)
-        // {
-        //     startx = (int)line.firstObj.connectports[line.startport].getX();
-        //     starty = (int)line.firstObj.connectports[line.startport].getY();
-        //     endx = (int)line.secObj.connectports[line.endport].getX();
-        //     endy = (int)line.secObj.connectports[line.endport].getY();
-        //     g.drawLine(startx, starty,endx, endy);
-        // }
-        // drawarrow(g);
-    }
     public void drawarrow(Graphics g, double angle, int endx, int endy)
     {
-
+        
     }
+    
 }

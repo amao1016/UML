@@ -1,9 +1,7 @@
 package UI;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import UI.canva;
 
 public class menu extends JMenuBar {
     private UI ui;
@@ -30,7 +28,6 @@ public class menu extends JMenuBar {
     {
         public void actionPerformed(ActionEvent e)
         {
-            //group();
             if(canva.selectedObjsNum>1)canva.group();
         }
     }
@@ -38,7 +35,6 @@ public class menu extends JMenuBar {
     {
         public void actionPerformed(ActionEvent e)
         {
-            //ungroup();
             if(canva.lastObj!=null&&canva.lastObj.componentNum>1)canva.ungroup();
         }
     }

@@ -3,19 +3,19 @@ import javax.swing.ImageIcon;
 
 import UI.canva;
 public class ButtonFactory {
-    public static Button createButton(String buttonName, ImageIcon icon,canva canva) {
+    public static Button createButton(ButtonType buttonName, ImageIcon icon,canva canva) {
         switch (buttonName) {
-            case "select":
+            case select:
                 return new select(icon,canva);
-            case "AssociationLine":
+            case association:
                 return new association(icon,canva);
-            case "GenerationLine":
+            case generation:
                 return new generation(icon,canva);
-            case "CompositionLine":
+            case composition:
                 return new composition(icon,canva);
-            case "Class":
+            case Class:
                 return new Class(icon,canva);
-            case "UseCase":
+            case useClass:
                 return new useClass(icon,canva);
             default:
                 return null;

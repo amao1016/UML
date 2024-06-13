@@ -10,8 +10,7 @@ public class group extends Obj{
     public group(ArrayList<Obj> member, int minX, int minY, int maxX, int maxY)
     {
         super("Group",minX-2,minY-2,maxX-minX+4,maxY-minY+4);
-        //this.member=member;
-        //super.member=member;
+
         super.pos[0]= new Point(minX,minY);
         super.pos[1] = new Point(maxX,minY);
         super.pos[2] = new Point(maxX,maxY);
