@@ -104,44 +104,43 @@ public class canva extends JPanel{
             System.out.println("Released");
             if(selectedButton==null)return;
             
-                if(notmove&&selectedButton.getType()==ButtonType.select)
+            if(notmove&&selectedButton.getType()==ButtonType.select)
+            {
+                ports.clear();
+                selectedObjs.clear();
+                selectedButton.Released(selectAreaStartX,selectAreaStartY,e.getX(),e.getY(),connectObj,lastObj,0,0);
+            }
+            else if(lastObj!=null) 
+            {
+                if(selectedButton.getType()==ButtonType.select &&selectedObjsNum==1)//Obj move
+                {
+                    lastObj.move(e.getX()-pressX, e.getY()-pressY);
+                    lastObj=null;                     
+                }
+                else 
                 {
                     ports.clear();
-                    selectedObjs.clear();
-                    selectedButton.Released(selectAreaStartX,selectAreaStartY,e.getX(),e.getY(),connectObj,lastObj,0,0);
-                }
-                else if(lastObj!=null) 
-                {
-                    if(selectedButton.getType()==ButtonType.select &&selectedObjsNum==1)//Obj move
+                    addport(e.getX(),e.getY(),true);
+                    if(connectObj!=null&& lastObj.componentNum==1)//上一個不為null
                     {
-                        lastObj.move(e.getX()-pressX, e.getY()-pressY);
-                        lastObj=null;                     
-                    }
-                    else 
-                    {
-                        ports.clear();
-                        addport(e.getX(),e.getY(),true);
-                        if(connectObj!=null&& lastObj.componentNum==1)//上一個不為null
+                        currentLine.endport = lastObj.findport(e.getX(),e.getY());
+                        releaseX = (int)lastObj.connectports[currentLine.endport].getX();
+                        releaseY = (int)lastObj.connectports[currentLine.endport].getY();
+                        selectedButton.Released(pressX,pressY,releaseX,releaseY,connectObj,lastObj,currentLine.startport, currentLine.endport);
+                        if(currentLine!=null)
                         {
-                            currentLine.endport = lastObj.findport(e.getX(),e.getY());
-                            releaseX = (int)lastObj.connectports[currentLine.endport].getX();
-                            releaseY = (int)lastObj.connectports[currentLine.endport].getY();
-                            selectedButton.Released(pressX,pressY,releaseX,releaseY,connectObj,lastObj,currentLine.startport, currentLine.endport);
-                            if(currentLine!=null)
-                            {
-                                Lines.add(currentLine);
-                                if(!connecList.contains(currentLine.firstObj)) connecList.add(currentLine.firstObj);
-                                if(!connecList.contains(currentLine.secObj)) connecList.add(currentLine.secObj);
-                                currentLine=null;
-                                connectObj=null;
-                                lastObj=null;
-                            }
+                            Lines.add(currentLine);
+                            if(!connecList.contains(currentLine.firstObj)) connecList.add(currentLine.firstObj);
+                            if(!connecList.contains(currentLine.secObj)) connecList.add(currentLine.secObj);
+                            currentLine=null;
+                            connectObj=null;
+                            lastObj=null;
                         }
-                        //selectedObjs.clear();
                     }
+                    //selectedObjs.clear();
                 }
-                repaint();
-            
+            }
+            repaint();
             reset();
         }
     }
