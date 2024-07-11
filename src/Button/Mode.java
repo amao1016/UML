@@ -7,10 +7,10 @@ import Shape.Obj;
 import javax.swing.ImageIcon;
 
 import UI.canva;
-public class Button extends JButton{
+public class Mode extends JButton{
     private ButtonType name;
     protected canva canva;
-    public Button(ButtonType name, ImageIcon icon,canva canva)
+    public Mode(ButtonType name, ImageIcon icon,canva canva)
     {
         super(icon);
         this.name = name;

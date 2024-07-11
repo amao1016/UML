@@ -3,7 +3,7 @@ import javax.swing.ImageIcon;
 
 import UI.canva;
 public class ButtonFactory {
-    public static Button createButton(ButtonType buttonName, ImageIcon icon,canva canva) {
+    public static Mode createButton(ButtonType buttonName, ImageIcon icon,canva canva) {
         switch (buttonName) {
             case select:
                 return new select(icon,canva);

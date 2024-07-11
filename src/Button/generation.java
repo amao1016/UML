@@ -6,7 +6,7 @@ import UI.canva;
 import Shape.Line;
 import Shape.Lgeneration;
 import Shape.Obj;
-public class generation extends Button{
+public class generation extends Mode{
     public generation(ImageIcon icon,canva canva)
     {
         super(ButtonType.generation,icon,canva);

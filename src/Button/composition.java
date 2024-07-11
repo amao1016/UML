@@ -6,7 +6,7 @@ import UI.canva;
 import Shape.Lcomposition;
 import Shape.Line;
 import Shape.Obj;
-public class composition extends Button{
+public class composition extends Mode{
     public composition(ImageIcon icon,canva canva)
     {
         super(ButtonType.composition,icon,canva);

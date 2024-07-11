@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
-import Button.Button;
+import Button.Mode;
 import Button.ButtonType;
 import Shape.Obj;
 import Shape.group;
@@ -26,7 +26,7 @@ public class canva extends JPanel{
     public ArrayList<Point> ports=new ArrayList<>();
     public ArrayList<ArrayList<Obj>> groupList=new ArrayList<>();
     private ArrayList<Line> Lines = new ArrayList<>();
-    Button selectedButton;
+    Mode selectedButton;
     public static ArrayList<Obj> objs = new ArrayList<>();
     ArrayList<Obj> connecList = new ArrayList<>();
     boolean mouseE=false;
@@ -228,7 +228,7 @@ public class canva extends JPanel{
         for(Point port:ports)
             g.fillRect((int)port.getX(), (int)port.getY(), 3, 3);
     }
-    public void setSelectedbtn(Button btn)
+    public void setSelectedbtn(Mode btn)
     {
         selectedButton = btn;
         lastObj=null;

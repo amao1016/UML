@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 import Shape.ObjuseClass;
 import UI.canva;
 import Shape.Obj;
-public class useClass extends Button{
+public class useClass extends Mode{
 
     public useClass(ImageIcon icon,canva canva)
     {

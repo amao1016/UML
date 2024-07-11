@@ -9,7 +9,7 @@ import Shape.Line;
 import Shape.Lassociation;
 import Shape.Obj;
 
-public class association extends Button{
+public class association extends Mode{
     public association(ImageIcon icon,canva canva)
     {
         super(ButtonType.association,icon,canva);

@@ -3,14 +3,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import Button.Button;
+import Button.Mode;
 import Button.ButtonFactory;
 import Button.ButtonType;
 import UI.canva;
 public class functionPanel extends JPanel{
         private UI ui;
-        private Button[] buttons = new Button[6];
-        private Button lastSelectedButton;
+        private Mode[] buttons = new Mode[6];
+        private Mode lastSelectedButton;
         private canva canva;
 
         public functionPanel(UI ui,canva canva)
@@ -45,7 +45,7 @@ public class functionPanel extends JPanel{
             {
                 canva.ports.clear();
                 //canva.repaint();
-                Button selectedButton = (Button) e.getSource();
+                Mode selectedButton = (Mode) e.getSource();
                 if(lastSelectedButton != null) {
                     lastSelectedButton.setBackground(new Color(105, 105, 105));
                 }
